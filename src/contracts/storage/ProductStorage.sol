@@ -29,8 +29,8 @@ contract ProductStorage {
     }
 
     // 检查用户是否可以评论产品
-    function canReviewProduct(uint256 productId) public view returns (bool) {
+    function canReviewProduct(uint256 productId, address user) public view returns (bool) {
         // 返回调用者是否是该产品的买家
-        return products[productId].buyer == msg.sender;
+        return products[productId].buyer == user;
     }
 } 

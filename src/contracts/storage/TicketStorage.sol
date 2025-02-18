@@ -42,8 +42,8 @@ contract TicketStorage {
     }
 
     // 检查用户是否具有评价的权限
-    function canReviewTicket(uint256 ticketId) public view returns (bool) {
+    function canReviewTicket(uint256 ticketId, address user) public view returns (bool) {
         // 检查用户是否是门票的买家，并且门票已被核销
-        return tickets[ticketId].buyer == msg.sender && tickets[ticketId].isUsed;
+        return tickets[ticketId].buyer == user && tickets[ticketId].isUsed;
     }
 } 

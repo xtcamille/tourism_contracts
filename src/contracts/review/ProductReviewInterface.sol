@@ -10,4 +10,5 @@ interface ProductReview {
     }
     
     function getReviews(uint256 productId) external view returns (Review[] memory);
+    function addReview(uint256 productId, string memory content, uint8 rating) external;
 } 

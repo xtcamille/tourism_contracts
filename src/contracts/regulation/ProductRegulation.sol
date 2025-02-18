@@ -1,6 +1,6 @@
 pragma solidity ^0.8.0;
 
-import "../review/ProductReviewInterface.sol"; // 引入产品评价接口
+import "../review/ProductReviewInterface.sol";  // Update this line
 
 contract ProductRegulation {
     struct Regulation {
