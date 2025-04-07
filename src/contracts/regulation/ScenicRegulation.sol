@@ -12,9 +12,11 @@ contract ScenicRegulation {
 
     Regulation[] public regulations;
     ScenicReview scenicReview; // 景区评价合约的引用
+    ScenicOracle scenicOracle; // 对外部景区评价合约的引用
 
-    constructor(address scenicReviewAddress) {
+    constructor(address scenicReviewAddress,address scenicOracleAddress) {
         scenicReview = ScenicReview(scenicReviewAddress); // 初始化景区评价合约的引用
+        scenicOracle = ScenicOracle(scenicOracleAddress); // 初始化外部景区评价合约的引用
     }
 
     function reportIssue(uint256 scenicId, string memory action, string memory result) public {
@@ -30,13 +32,24 @@ contract ScenicRegulation {
     function processReviews(uint256 scenicId) public {
         // 获取指定景点的所有评论
         ScenicReview.Review[] memory reviews = scenicReview.getReviews(scenicId);
+        ScenicOracle.Review[] memory reviews2 = scenicOracle.getReviews(scenicId);
         uint256 totalRating = 0; // 初始化总评分
         uint256 reviewCount = reviews.length; // 获取评论数量
+        uint256 reviewCount2 = reviews2.length; // 获取评论数量
+
+
 
         // 计算总评分
         for (uint256 i = 0; i < reviewCount; i++) {
             totalRating += reviews[i].rating; // 累加每条评论的评分
         }
+
+         // 计算总评分2
+        for (uint256 i = 0; i < reviewCount2; i++) {
+            totalRating += reviews2[i].rating; // 累加每条评论的评分
+        }
+
+        reviewCount = reviewCount+reviewCount2;
 
         // 计算平均评分
         uint8 averageRating = reviewCount > 0 ? uint8(totalRating / reviewCount) : 0;

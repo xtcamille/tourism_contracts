@@ -1,6 +1,7 @@
 pragma solidity ^0.8.0;
 
 import "../review/ProductReviewInterface.sol";  // Update this line
+import "../oracle/ProductOracleInterface.sol";  // Update this line
 
 contract ProductRegulation {
     // 定义监管结构体
@@ -13,10 +14,12 @@ contract ProductRegulation {
 
     Regulation[] public regulations; // 存储所有监管记录的数组
     ProductReview productReview; // 产品评价合约的引用
+    ProductOracle productOracle; // 对外部平台评价合约的引用
 
     // 构造函数，初始化产品评价合约的地址
-    constructor(address productReviewAddress) {
+    constructor(address productReviewAddress,address productOracleAddress) {
         productReview = ProductReview(productReviewAddress);
+        productOracle = ProductOracle(productOracleAddress);
     }
 
     // 报告问题的函数
@@ -34,13 +37,22 @@ contract ProductRegulation {
     function processReviews(uint256 productId) public {
         // 获取指定产品的所有评论
         ProductReview.Review[] memory reviews = productReview.getReviews(productId);
+        ProductOracle.Review[] memory reviews2 = productOracle.getReviews(productId);
         uint256 totalRating = 0; // 初始化总评分
         uint256 reviewCount = reviews.length; // 获取评论数量
+        uint256 reviewCount2 = reviews2.length; // 获取评论数量
 
         // 计算总评分
         for (uint256 i = 0; i < reviewCount; i++) {
             totalRating += reviews[i].rating; // 累加每条评论的评分
         }
+
+         // 计算总评分2
+        for (uint256 i = 0; i < reviewCount2; i++) {
+            totalRating += reviews2[i].rating; // 累加每条评论的评分
+        }
+
+        reviewCount = reviewCount+reviewCount2;
 
         // 计算平均评分
         uint8 averageRating = reviewCount > 0 ? uint8(totalRating / reviewCount) : 0;
