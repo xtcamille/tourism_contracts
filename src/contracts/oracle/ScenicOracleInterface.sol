@@ -1,7 +1,7 @@
 pragma solidity ^0.8.0;
 
 
-interface ScenicOracle {
+interface ScenicOracleInterface {
     struct Review {
         uint256 id;
         address reviewer;

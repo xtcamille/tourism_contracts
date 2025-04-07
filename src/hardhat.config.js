@@ -5,11 +5,7 @@ module.exports = {
   solidity: "0.8.28",
   networks: {
     localhost: {
-      url: "http://localhost:8545",
+      url: "http://192.168.1.72:3000",
     },
-    // sepolia: {
-    //   url: "https://sepolia.infura.io/v3/YOUR_API_KEY",
-    //   accounts: ["0xPRIVATE_KEY"] // 替换为你的私钥
-    // }
   },
 };

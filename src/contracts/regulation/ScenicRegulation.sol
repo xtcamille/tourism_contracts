@@ -1,6 +1,7 @@
 pragma solidity ^0.8.0;
 
 import "../review/ScenicReviewInterface.sol"; // 引入景区评价合约
+import "../oracle/ScenicOracleInterface.sol"; // 引入景区外部评价合约
 
 contract ScenicRegulation {
     struct Regulation {
@@ -11,12 +12,12 @@ contract ScenicRegulation {
     }
 
     Regulation[] public regulations;
-    ScenicReview scenicReview; // 景区评价合约的引用
-    ScenicOracle scenicOracle; // 对外部景区评价合约的引用
+    ScenicReviewInterface scenicReview; // 景区评价合约的引用
+    ScenicOracleInterface scenicOracle; // 对外部景区评价合约的引用
 
     constructor(address scenicReviewAddress,address scenicOracleAddress) {
-        scenicReview = ScenicReview(scenicReviewAddress); // 初始化景区评价合约的引用
-        scenicOracle = ScenicOracle(scenicOracleAddress); // 初始化外部景区评价合约的引用
+        scenicReview = ScenicReviewInterface(scenicReviewAddress); // 初始化景区评价合约的引用
+        scenicOracle = ScenicOracleInterface(scenicOracleAddress); // 初始化外部景区评价合约的引用
     }
 
     function reportIssue(uint256 scenicId, string memory action, string memory result) public {
@@ -24,15 +25,15 @@ contract ScenicRegulation {
         regulations.push(Regulation(regulations.length, scenicId, action, result));
     }
 
-    function reviewScenic(uint256 scenicId) public view returns (ScenicReview.Review[] memory) {
+    function reviewScenic(uint256 scenicId) public view returns (ScenicReviewInterface.Review[] memory) {
         // 获取指定景区的所有评论
         return scenicReview.getReviews(scenicId);  // 使用getReviews方法获取评论
     }
 
     function processReviews(uint256 scenicId) public {
         // 获取指定景点的所有评论
-        ScenicReview.Review[] memory reviews = scenicReview.getReviews(scenicId);
-        ScenicOracle.Review[] memory reviews2 = scenicOracle.getReviews(scenicId);
+        ScenicReviewInterface.Review[] memory reviews = scenicReview.getReviews(scenicId);
+        ScenicOracleInterface.Review[] memory reviews2 = scenicOracle.getReviews(scenicId);
         uint256 totalRating = 0; // 初始化总评分
         uint256 reviewCount = reviews.length; // 获取评论数量
         uint256 reviewCount2 = reviews2.length; // 获取评论数量

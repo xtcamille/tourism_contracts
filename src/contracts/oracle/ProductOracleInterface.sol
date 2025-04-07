@@ -1,6 +1,6 @@
 pragma solidity ^0.8.0;
 
-interface ProductOracle {
+interface ProductOracleInterface {
     struct Review {
         uint256 id;
         address reviewer;

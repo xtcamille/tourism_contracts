@@ -13,13 +13,13 @@ contract ProductRegulation {
     }
 
     Regulation[] public regulations; // 存储所有监管记录的数组
-    ProductReview productReview; // 产品评价合约的引用
-    ProductOracle productOracle; // 对外部平台评价合约的引用
+    ProductReviewInterface productReview; // 产品评价合约的引用
+    ProductOracleInterface productOracle; // 对外部平台评价合约的引用
 
     // 构造函数，初始化产品评价合约的地址
     constructor(address productReviewAddress,address productOracleAddress) {
-        productReview = ProductReview(productReviewAddress);
-        productOracle = ProductOracle(productOracleAddress);
+        productReview = ProductReviewInterface(productReviewAddress);
+        productOracle = ProductOracleInterface(productOracleAddress);
     }
 
     // 报告问题的函数
@@ -29,15 +29,15 @@ contract ProductRegulation {
     }
 
     // 获取指定产品的所有评论
-    function reviewProduct(uint256 productId) public view returns (ProductReview.Review[] memory) {
+    function reviewProduct(uint256 productId) public view returns (ProductReviewInterface.Review[] memory) {
         return productReview.getReviews(productId); // 返回该产品的评论列表
     }
 
     // 处理评论的函数
     function processReviews(uint256 productId) public {
         // 获取指定产品的所有评论
-        ProductReview.Review[] memory reviews = productReview.getReviews(productId);
-        ProductOracle.Review[] memory reviews2 = productOracle.getReviews(productId);
+        ProductReviewInterface.Review[] memory reviews = productReview.getReviews(productId);
+        ProductOracleInterface.Review[] memory reviews2 = productOracle.getReviews(productId);
         uint256 totalRating = 0; // 初始化总评分
         uint256 reviewCount = reviews.length; // 获取评论数量
         uint256 reviewCount2 = reviews2.length; // 获取评论数量

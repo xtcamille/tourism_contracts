@@ -14,11 +14,11 @@ contract ScenicReview {
     // 存储每个景点的评论列表
     mapping(uint256 => Review[]) private reviews;
 
-    TicketStorage ticketStorage; // 票务存证合约的引用
+    TicketStorageInterface ticketStorage; // 票务存证合约的引用
 
     // 构造函数，初始化票务存证合约的地址
     constructor(address ticketStorageAddress) {
-        ticketStorage = TicketStorage(ticketStorageAddress);
+        ticketStorage = TicketStorageInterface(ticketStorageAddress);
     }
 
     // 添加评论的函数

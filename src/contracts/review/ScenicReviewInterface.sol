@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-interface ScenicReview {
+interface ScenicReviewInterface {
     struct Review {
         uint256 id;
         address reviewer;

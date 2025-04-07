@@ -14,11 +14,11 @@ contract ProductReview {
     // 存储每个产品的评论列表
     mapping(uint256 => Review[]) public reviews;
 
-    ProductStorage productStorage; // 产品存证合约的引用
+    ProductStorageInteface productStorage; // 产品存证合约的引用
 
     // 构造函数，初始化产品存证合约的地址
     constructor(address productStorageAddress) {
-        productStorage = ProductStorage(productStorageAddress);
+        productStorage = ProductStorageInteface(productStorageAddress);
     }
 
     // 添加评论的函数
